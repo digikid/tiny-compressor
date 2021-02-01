@@ -1,0 +1,27 @@
+{
+  "name": "tiny-compressor",
+  "version": "1.0.0",
+  "description": "Автоматическая компрессия JPG и PNG изображений",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "dree": "^2.5.12",
+    "gulp": "^4.0.2",
+    "gulp-changed": "^4.0.2",
+    "gulp-load-plugins": "^2.0.6",
+    "gulp-plumber": "^1.2.1",
+    "gulp-tinypng-free": "^1.0.13"
+  },
+  "scripts": {
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://githab.com/digikid/icomoon-sass-builder.git"
+  },
+  "bugs": {
+    "url": "https://githab.com/digikid/icomoon-sass-builder/issues"
+  },
+  "author": "Alexander Dovlatov <dev@digkid.ru> (https://dev.digikid.ru/)",
+  "license": "ISC"
+}
