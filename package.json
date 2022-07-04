@@ -11,10 +11,10 @@
   "homepage": "https://github.com/digikid/tiny-compressor#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/digikid/create-project.git"
+    "url": "https://github.com/digikid/tiny-compressor.git"
   },
   "bugs": {
-    "url": "https://github.com/digikid/create-project/issues"
+    "url": "https://github.com/digikid/tiny-compressor/issues"
   },
   "keywords": [
     "compress",
