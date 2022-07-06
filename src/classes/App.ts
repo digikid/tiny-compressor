@@ -1,33 +1,25 @@
 import path from 'path';
-import dree from 'dree';
 
-import compress from '../methods/compress.js';
-import config from '../methods/config.js';
-import help from '../methods/help.js';
-import reset from '../methods/reset.js';
-import stat from '../methods/stat.js';
-import watch from '../methods/watch.js';
+import compress, { type CompressMethod } from '../methods/compress.js';
+import config, { type ConfigMethod } from '../methods/config.js';
+import help, { type HelpMethod } from '../methods/help.js';
+import init, { type InitMethod } from '../methods/init.js';
+import message, { type MessageMethod } from '../methods/message.js';
+import report, { type ReportMethod } from '../methods/report.js';
+import reset, { type ResetMethod } from '../methods/reset.js';
+import stat, { type StatMethod } from '../methods/stat.js';
+import version, { type VersionMethod } from '../methods/version.js';
+import watch, { type WatchMethod } from '../methods/watch.js';
 
-import { arg } from '../utils/args.js';
-import { findDeep } from '../utils/object.js';
+import { arg, parse as parseArgs } from '../utils/args.js';
+import { get as getLocale, type Locale } from '../utils/locale.js';
+import { scanFiles } from '../utils/fs.js';
 
 import Store, { type IStore } from './Store.js';
-import Logger, { type ILogger } from './Logger.js';
 
 const paramArgs = ['demo', 'force', 'path', 'quiet', 'watch'] as const;
-const methodArgs = ['config', 'help', 'reset', 'stat'] as const;
-const methodKeys = [
-  'compress',
-  'config',
-  'help',
-  'reset',
-  'stat',
-  'watch',
-] as const;
 
-export type ArgParamsType = typeof paramArgs[number];
-export type ArgMethodsType = typeof methodArgs[number];
-export type MethodKeysType = typeof methodKeys[number];
+export type ParamArgsKeys = typeof paramArgs[number];
 
 export interface IFile {
   name: string;
@@ -38,69 +30,73 @@ export interface IFile {
 }
 
 export interface IApp extends IStore {
+  readonly locale: Locale;
   readonly extensions: string[];
-  readonly logger: ILogger;
   readonly outputPathName: string;
   readonly rootPath: string;
   readonly outputPath: string;
-  readonly args: Record<ArgParamsType, boolean | string>;
-  readonly methods: Record<MethodKeysType, () => Promise<void>>;
+  readonly args: Record<ParamArgsKeys, boolean | string>;
+
+  readonly compress: CompressMethod;
+  readonly config: ConfigMethod;
+  readonly help: HelpMethod;
+  readonly init: InitMethod;
+  readonly message: MessageMethod;
+  readonly report: ReportMethod;
+  readonly reset: ResetMethod;
+  readonly stat: StatMethod;
+  readonly version: VersionMethod;
+  readonly watch: WatchMethod;
 
   get files(): IFile[];
-
-  run(): Promise<void>;
 }
 
 export default class App extends Store implements IApp {
-  public extensions = ['jpeg', 'jpg', 'png', 'webp'];
-
-  public logger = new Logger();
-
-  public args;
-
-  public methods;
-
-  public outputPathName;
-
-  public rootPath;
-
-  public outputPath;
-
-  constructor() {
+  constructor(locale: string) {
     super();
 
-    this.outputPathName = arg('path', true) || this.path;
-
-    this.rootPath = process.cwd();
-    this.outputPath = path.join(this.rootPath, this.outputPathName);
-
-    this.args = paramArgs.reduce((acc, param) => {
-      acc[param] = arg(param, (param === 'path') as true);
-
-      return acc;
-    }, {} as Record<ArgParamsType, boolean | string>);
-
-    this.methods = {
-      compress,
-      config,
-      help,
-      reset,
-      stat,
-      watch,
-    };
+    this.locale = getLocale(locale);
   }
+
+  public locale;
+
+  public extensions = ['jpeg', 'jpg', 'png', 'webp'];
+
+  public args = parseArgs<ParamArgsKeys>(paramArgs);
+
+  public outputPathName = arg('path', true) || this.path;
+
+  public rootPath = process.cwd();
+
+  public outputPath = path.join(this.rootPath, this.outputPathName);
+
+  public compress = compress;
+
+  public config = config;
+
+  public help = help;
+
+  public init = init;
+
+  public message = message;
+
+  public report = report;
+
+  public reset = reset;
+
+  public stat = stat;
+
+  public version = version;
+
+  public watch = watch;
 
   get files() {
     const exclude = new RegExp(`/${this.outputPathName}/`);
 
-    const tree = dree.scan(this.rootPath, {
-      showHidden: false,
-      symbolicLinks: false,
+    return scanFiles(this.rootPath, {
       extensions: this.extensions,
       exclude,
-    });
-
-    return findDeep(tree, ({ type }) => type === 'file').map(
+    }).map(
       ({
         name, hash, path, relativePath, sizeInBytes,
       }) => ({
@@ -111,17 +107,5 @@ export default class App extends Store implements IApp {
         size: sizeInBytes,
       } as IFile),
     );
-  }
-
-  public async run() {
-    const method = methodArgs.find((param) => arg(param)) || 'compress';
-
-    if (method in this.methods) {
-      await this.methods[method].call(this);
-    }
-
-    if (arg('watch')) {
-      await this.methods.watch.call(this as IApp);
-    }
   }
 }

@@ -10,8 +10,9 @@ export interface IPackageJson {
   name: string;
   version: string;
   homepage: string;
-
-  [key: string]: string;
+  repository: {
+    url: string;
+  }
 }
 
 export interface IStoreFile {

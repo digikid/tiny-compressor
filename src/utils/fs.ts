@@ -1,5 +1,8 @@
 import path from 'path';
+import dree from 'dree';
 import fs, { promises } from 'fs';
+
+import { findDeep } from './object.js';
 
 export const readFile = (file: string): string => fs.readFileSync(file, { encoding: 'utf8' });
 
@@ -21,4 +24,14 @@ export const writeFileAsync = async (
   });
 
   await promises.writeFile(directory, data);
+};
+
+export const scanFiles = (path: string, options = {}) => {
+  const tree = dree.scan(path, {
+    showHidden: false,
+    symbolicLinks: false,
+    ...options,
+  });
+
+  return findDeep(tree, ({ type }) => type === 'file');
 };

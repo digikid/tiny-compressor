@@ -1,112 +1,131 @@
 <div align="center">
-  <img alt="TinyCompressor" src="https://github.com/digikid/tiny-compressor/raw/main/logo.png" height="117" />
-</div>
-
-<div align="center">
-  <h1>TinyCompressor</h1>
-  <p>Компрессор JPG, PNG и WebP изображений, использующий TinyPNG API.<br><b>Не требует использования API ключа.</b></p>
+  <img alt="Tiny Compressor" src="https://github.com/digikid/tiny-compressor/raw/main/logo.png" height="117" />
+  <h1>Tiny Compressor</h1>
+  <p>A command line JPG, PNG and WebP images compressor using TinyPNG API.<br><b>API key is not required.</b></p>
   <img src="https://img.shields.io/github/release/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="Release version">
   <img src="https://img.shields.io/github/languages/top/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="TypeScript">
   <img src="https://img.shields.io/github/license/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="MIT License">
-  <br>
-  <br>
+  <p>
+    <a href="https://github.com/digikid/tiny-compressor/blob/main/README.md">en</a> | <a href="https://github.com/digikid/tiny-compressor/blob/main/README-ru.md">ru</a></p>
 </div>
 
-## Преимущества
+## Why
 
-- В отличие от других популярных компрессоров обеспечивается сжатие до 80% от исходного размера без ощутимой потери качества
-- За счет кеширования снижается количество обращений к серверу и обрабатываются только изменившиеся файлы
-- Написан на TypeScript
+- Provides up to 80% compression without noticeable quality loss
+- Due to caching only changed files are uploaded to TinyPNG server
+- Written in TypeScript
 
-## Установка
+## Install
 
 ```shell
 npm i -g digikid/tiny-compressor
 ```
 
-## Запуск
+## Usage
 
-Перейдите в директорию с изображениями и запустите команду:
+Navigate to folder containing images and run command:
 
 ```shell
 tiny-compressor
 ```
 
-После этого обработанные изображения будут сохранены в папку `/compressed` с учетом вложенности.
+The processed files will be saved to `/compressed` folder.
 
-## Настройка
+## Options
 
-### Список параметров
+| Option             | Description                         |
+|--------------------|-------------------------------------|
+| <b>-f, --force</b> | Compress images regardless of cache |
+| <b>-p, --path</b>  | Output folder name                  |
+| <b>-q, --quiet</b> | Disable log                         |
+| <b>-w, --watch</b> | Watch for file changes              |
 
-| Параметр            | Описание                                         |
-|---------------------|--------------------------------------------------|
-| <b>-c, --config</b> | Изменить настройки по умолчанию                  |
-| <b>-f, --force</b>  | Обработать все файлы без учета кеша              |
-| <b>-h, --help</b>   | Показать раздел справки                          |
-| <b>-p, --path</b>   | Название директории для обработанных изображений |
-| <b>-q, --quiet</b>  | Отключить уведомления                            |
-| <b>-r, --reset</b>  | Очистить кеш                                     |
-| <b>-s, --stat</b>   | Показать историю изменения файлов                |
-| <b>-w, --watch</b>  | Запустить слежение за изменением файлов          |
+### Caching
 
-### Кеширование
+To avoid re-compression of files and reduce requests to TinyPNG server, all processed files are cached by default.
 
-Для исключения повторной компрессии файлов и уменьшения количества запросов к серверу TinyPNG, все обработанные файлы по умолчанию попадают в кеш.
-
-Если вы хотите запустить компрессию, игнорируя кэш, передайте флаг `-f`:
+If you want to run compression regardless of cache, pass `-f` option:
 
 ```shell
 tiny-compressor -f
 ```
 
-Для очистки кеша воспользуйтесь командой:
+### Output folder name
 
-```shell
-tiny-compressor -r
-```
-
-### Название папки
-
-Изменить название для папки с обработанными изображениями (без сохранения в настройках) можно командой:
+You can change output folder name (without saving in settings) by passing `-p` parameter:
 
 ```shell
 tiny-compressor -p compressed-images
 ```
 
-### Изменение настроек
+### Log
 
-Настройки сохраняются локально и применяются при всех последующих запусках.
-
-Чтобы изменить их, запустите компрессор с параметром `-c`:
-
-```shell
-tiny-compressor -c
-```
-
-### Показ уведомлений
-
-По умолчанию при каждой обработке файлов генерируются уведомления, которые можно отключить через флаг `-q`:
+Notifications are generated each time files are processed. You can disable log with `-q` option:
 
 ```shell
 tiny-compressor -q
 ```
 
-### История изменения файлов
+### Watch
 
-Для просмотра истории изменения файлов (кеша) используйте флаг `-s`:
-
-```shell
-tiny-compressor -s
-```
-
-### Слежение за файлами
-
-Для запуска компрессии при каждом изменении файлов в текущей папке передайте параметр `-w`:
+If you want to run compression whenever files in current folder are changed, pass `-w` option:
 
 ```shell
 tiny-compressor -w
 ```
 
-## Лицензия
+## Commands
+
+| Command        | Description                   |
+|----------------|-------------------------------|
+| <b>config</b>  | Update settings               |
+| <b>help</b>    | Display usage guide           |
+| <b>reset</b>   | Clear cache                   |
+| <b>stat</b>    | Print processed file history  |
+| <b>version</b> | Print current package version |
+
+### Config
+
+Settings are saved locally and applied on all subsequent launches.
+
+For settings update, run `config` command:
+
+```shell
+tiny-compressor config
+```
+
+### Help
+
+The `help` command displays a help section with a list of available commands and options:
+
+```shell
+tiny-compressor help
+```
+
+### Reset
+
+Use `reset` command to clear processed files cache:
+
+```shell
+tiny-compressor reset
+```
+
+### Stat
+
+For printing processed file history use command `stat`:
+
+```shell
+tiny-compressor stat
+```
+
+### Version
+
+You can check installed package version with `version` command:
+
+```shell
+tiny-compressor version
+```
+
+## License
 
 [The MIT License (MIT)](LICENSE)

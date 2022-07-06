@@ -3,10 +3,11 @@ import ora, { type Ora } from 'ora';
 import cliSpinners, { type SpinnerName } from 'cli-spinners';
 
 import { type IFile } from './App.js';
+import { type Locale } from '../utils/locale.js';
 
 import Store from './Store.js';
 
-export type SpinnerStatusType = 'start' | 'success' | 'error';
+export type SpinnerStatus = 'start' | 'success' | 'error';
 
 export interface ISpinnerStatus {
   color: string;
@@ -14,12 +15,13 @@ export interface ISpinnerStatus {
 }
 
 export interface ISpinner {
+  readonly locale: Locale;
   readonly file: IFile;
   readonly type: SpinnerName;
   readonly spinner: Ora;
-  readonly status: Record<SpinnerStatusType, ISpinnerStatus>;
+  readonly status: Record<SpinnerStatus, ISpinnerStatus>;
 
-  print(status: SpinnerStatusType): string;
+  print(status: SpinnerStatus): string;
 
   start(): void;
 
@@ -29,29 +31,25 @@ export interface ISpinner {
 }
 
 export default class Spinner extends Store implements ISpinner {
-  public status: Record<SpinnerStatusType, ISpinnerStatus>;
+  public status: Record<SpinnerStatus, ISpinnerStatus>;
 
   public spinner: Ora;
 
-  constructor(public file: IFile, public type: SpinnerName = 'bouncingBar') {
+  constructor(public locale: Locale, public file: IFile, public type: SpinnerName = 'bouncingBar') {
     super();
 
     this.status = {
       start: {
         color: 'cyan',
-        text: `${
-          this.inStore(file.hash) ? 'Повторная о' : 'О'
-        }бработка файла...`,
+        text: locale[this.inStore(file.hash) ? 'SPINNER_START_FORCE_TEXT' : 'SPINNER_START_TEXT'],
       },
       success: {
         color: 'green',
-        text: 'Готово',
+        text: locale.SPINNER_SUCCESS_TEXT,
       },
       error: {
         color: 'red',
-        text: `При ${
-          this.inStore(file.hash) ? 'повторной ' : ''
-        }обработке файла произошла ошибка`,
+        text: locale[this.inStore(file.hash) ? 'SPINNER_ERROR_FORCE_TEXT' : 'SPINNER_ERROR_TEXT'],
       },
     };
 
@@ -60,7 +58,7 @@ export default class Spinner extends Store implements ISpinner {
     });
   }
 
-  print(status: SpinnerStatusType) {
+  print(status: SpinnerStatus) {
     const { color, text } = this.status[status];
 
     const nameText = (chalk as any)[color](`[${this.file.name}] `);

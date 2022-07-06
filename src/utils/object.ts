@@ -31,7 +31,15 @@ export const sortByKey = <T>(
     const valueA = +a[key] || 0;
     const valueB = +b[key] || 0;
 
-    return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+    if (valueA < valueB) {
+      return -1;
+    }
+
+    if (valueA > valueB) {
+      return 1;
+    }
+
+    return 0;
   });
 
   return reverse ? result.reverse() : result;

@@ -2,86 +2,68 @@ import commandLineUsage from 'command-line-usage';
 
 import { type IApp } from '../classes/App.js';
 
-export default async function (this: IApp) {
+export type HelpMethod = () => Promise<void>;
+
+export default (async function (this: IApp) {
   const sections = [
     {
-      header: `Tiny Compressor ${this.packageJson.version}`,
-      content:
-                'Компрессор JPG, PNG и WebP изображений, использующий TinyPNG API.',
+      header: `${this.message('HELP_NAME')} ${this.packageJson.version}`,
+      content: this.message('HELP_DESCRIPTION'),
     },
     {
-      header: 'Использование',
+      header: this.message('HELP_SYNOPSIS_TITLE'),
       content: [
-        `$ ${this.packageJson.name}`,
+        `$ ${this.packageJson.name} <options> <command>`,
         `$ ${this.packageJson.name} {bold --force} ...`,
-        `$ ${this.packageJson.name} {bold --path} {underline compressed-images} ...`,
+        `$ ${this.packageJson.name} {bold -f -p} {underline compressed-images} ...`,
       ],
     },
     {
-      header: 'Параметры',
+      header: this.message('HELP_OPTIONS_TITLE'),
       optionList: [
         {
           name: 'force',
           alias: 'f',
           type: Boolean,
-          description: 'Обработать все файлы без учета кеша',
+          description: this.message('HELP_OPTIONS_FORCE_TEXT'),
         },
         {
           name: 'path',
           alias: 'p',
           type: String,
-          description: 'Название директории для обработанных изображений',
+          description: this.message('HELP_OPTIONS_PATH_TEXT'),
         },
         {
           name: 'quiet',
           alias: 'q',
           type: Boolean,
-          description: 'Отключить уведомления',
+          description: this.message('HELP_OPTIONS_QUIET_TEXT'),
         },
         {
           name: 'watch',
           alias: 'w',
           type: Boolean,
-          description: 'Запустить слежение за изменением файлов',
+          description: this.message('HELP_OPTIONS_WATCH_TEXT'),
         },
       ],
     },
     {
-      header: 'Команды',
-      optionList: [
-        {
-          name: 'config',
-          alias: 'c',
-          type: Boolean,
-          description: 'Изменить настройки по умолчанию',
-        },
-        {
-          name: 'help',
-          alias: 'h',
-          type: Boolean,
-          description: 'Показать раздел справки',
-        },
-        {
-          name: 'reset',
-          alias: 'r',
-          type: Boolean,
-          description: 'Очистить кеш',
-        },
-        {
-          name: 'stat',
-          alias: 's',
-          type: Boolean,
-          description: 'Показать историю изменения файлов',
-        },
+      header: this.message('HELP_COMMANDS_TITLE'),
+      content: [
+        { name: 'config', summary: this.message('HELP_COMMANDS_CONFIG_TEXT') },
+        { name: 'help', summary: this.message('HELP_COMMANDS_HELP_TEXT') },
+        { name: 'reset', summary: this.message('HELP_COMMANDS_RESET_TEXT') },
+        { name: 'stat', summary: this.message('HELP_COMMANDS_STAT_TEXT') },
+        { name: 'version', summary: this.message('HELP_COMMANDS_VERSION_TEXT') },
       ],
     },
     {
-      header: 'Подробнее',
-      content: `Домашняя страница: {underline ${this.packageJson.homepage}}`,
+      header: this.message('HELP_MORE_TITLE'),
+      content: `${this.message('HELP_MORE_TEXT')} {underline ${this.packageJson.homepage}}`,
     },
   ];
 
   const usage = await commandLineUsage(sections);
 
   console.log(usage);
-}
+}) as HelpMethod;

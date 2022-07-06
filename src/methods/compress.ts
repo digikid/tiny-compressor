@@ -1,5 +1,4 @@
 import path from 'path';
-import chalk from 'chalk';
 
 import { getTimestamp } from '../utils/date.js';
 import { writeFileAsync } from '../utils/fs.js';
@@ -16,19 +15,17 @@ export interface ICompressResult {
   errors: Error[];
 }
 
-export default async function (this: IApp) {
+export type CompressMethod = () => Promise<void>;
+
+export default (async function (this: IApp) {
   if (!this.files.length) {
-    console.log(chalk.bold.red('Текущая директория не содержит изображений'));
+    console.log(this.message('COMPRESS_NO_IMAGES_ERROR', 'bold', 'red'));
 
     return;
   }
 
   if (this.args.force && !this.args.quiet) {
-    console.log(
-      chalk.bgYellowBright(
-        'Параметр --force активен, поэтому все ранее обработанные изображения будут обработаны повторно',
-      ),
-    );
+    console.log(this.message('COMPRESS_WATCH_WARNING', 'bgYellowBright'));
   }
 
   const timestamp = getTimestamp();
@@ -45,7 +42,7 @@ export default async function (this: IApp) {
     let isSuccess = false;
 
     if (this.args.force || !this.inStore(hash)) {
-      const spinner = new Spinner(file);
+      const spinner = new Spinner(this.locale, file);
 
       if (!this.args.quiet) {
         spinner.start();
@@ -118,6 +115,6 @@ export default async function (this: IApp) {
   }
 
   if (!this.args.quiet) {
-    this.logger.report(result, timestamp);
+    this.report(result, timestamp);
   }
-}
+}) as CompressMethod;
