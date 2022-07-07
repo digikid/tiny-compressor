@@ -1,5 +1,16 @@
 # Release Notes
 
+[1.2.0]: https://github.com/digikid/tiny-compressor/releases/tag/1.2.0
+
+## [1.2.0] - 2022-07-08
+
+### Features
+- Error handling for latest version check
+
+### Refactor
+- Log methods moved to external `Logger` class
+- Store methods moved to external files for better readability
+
 [1.1.0]: https://github.com/digikid/tiny-compressor/releases/tag/1.1.0
 
 ## [1.1.0] - 2022-07-06
@@ -17,7 +28,7 @@
 
 ### Updates
 
-- Documentation: all commands moved to separate section
+- Documentation: commands moved to separate section
 
 [1.0.0]: https://github.com/digikid/tiny-compressor/releases/tag/1.0.0
 

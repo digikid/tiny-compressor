@@ -1,6 +1,6 @@
 {
   "name": "tiny-compressor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A command line JPG, PNG and WebP images compressor using TinyPNG API",
   "type": "module",
   "main": "dist/index.js",
@@ -50,6 +50,7 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "file-type": "^17.1.2",
     "inquirer": "^9.0.0",
+    "log-symbols": "^5.1.0",
     "node-fetch": "^3.2.6",
     "nsfw": "^2.2.2",
     "ora": "^6.1.0",

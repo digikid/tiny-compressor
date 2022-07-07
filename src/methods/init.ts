@@ -1,5 +1,5 @@
+import { type IApp } from '../classes/App.js';
 import { command } from '../utils/args.js';
-import { IApp } from '../classes/App.js';
 
 export type InitMethod = () => Promise<void>;
 

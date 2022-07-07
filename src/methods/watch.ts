@@ -38,6 +38,6 @@ export default (async function (this: IApp) {
   await watcher.start();
 
   if (!this.args.quiet) {
-    console.log(this.message('WATCH_TITLE', 'bold', 'cyan'));
+    this.log.info('WATCH_TITLE');
   }
 }) as WatchMethod;

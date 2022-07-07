@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import fetch from 'node-fetch';
 
 import { type IPackageJson } from '../classes/Store.js';
@@ -42,12 +41,7 @@ export const getVersion = async (json: IPackageJson): Promise<string[]> => {
         versions.push(latest.name);
       }
     }
-  } catch (e) {
-    if (e instanceof Error) {
-      chalk.bold.red('Не удалось проверить последнюю версию пакета');
-      chalk.italic.gray(e.message);
-    }
-  }
+  } catch (e) {}
 
   return versions;
 };

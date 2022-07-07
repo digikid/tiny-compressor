@@ -26,6 +26,7 @@ npm i -g digikid/tiny-compressor
 Navigate to folder containing images and run command:
 
 ```shell
+cd path/to/images
 tiny-compressor
 ```
 
@@ -96,7 +97,7 @@ tiny-compressor config
 
 ### Help
 
-The `help` command displays a help section with a list of available commands and options:
+The `help` command displays a help section with a list of available options and commands list:
 
 ```shell
 tiny-compressor help

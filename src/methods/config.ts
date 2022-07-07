@@ -6,12 +6,12 @@ import { type IApp } from '../classes/App.js';
 export type ConfigMethod = () => Promise<void>;
 
 export default (async function (this: IApp) {
-  console.log(this.message('CONFIG_TITLE', 'bold'));
-  console.log(this.message('CONFIG_TEXT'));
+  this.log.print('CONFIG_TITLE', 'bold');
+  this.log.print('CONFIG_TEXT');
 
   const validate = (name: string): string | boolean => {
     if (!isValidFilename(name)) {
-      return this.message('CONFIG_ERROR', 'bold', 'red');
+      return this.text('CONFIG_ERROR', 'bold', 'red');
     }
 
     return true;
@@ -21,7 +21,7 @@ export default (async function (this: IApp) {
     {
       type: 'input',
       name: 'path',
-      message: this.message('CONFIG_FOLDER_NAME'),
+      message: this.text('CONFIG_FOLDER_NAME'),
       default: this.store.get('path'),
       validate,
     },

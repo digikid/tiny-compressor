@@ -4,13 +4,13 @@ import fs, { promises } from 'fs';
 
 import { findDeep } from './object.js';
 
-export const readFile = (file: string): string => fs.readFileSync(file, { encoding: 'utf8' });
+export const readFile = (path: string): string => fs.readFileSync(path, { encoding: 'utf8' });
 
 export const readFileAsync = async (
-  file: string,
+  path: string,
   isBuffer: boolean = false,
 ) => {
-  const data = await promises.readFile(file, 'utf8');
+  const data = await promises.readFile(path, 'utf8');
 
   return isBuffer ? Buffer.from(data) : data;
 };

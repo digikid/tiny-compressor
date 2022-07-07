@@ -1,6 +1,6 @@
 {
   "COMPRESS_NO_IMAGES_ERROR": "The current directory does not contain any images",
-  "COMPRESS_WATCH_WARNING": "The --force option is active, all previously processed images will be reprocessed",
+  "COMPRESS_FORCE_WARNING": "The --force option is active, all previously processed images will be reprocessed",
   "CONFIG_TITLE": "Settings",
   "CONFIG_TEXT": "Please fill in all required fields",
   "CONFIG_ERROR": "Set correct folder name",
@@ -52,6 +52,7 @@
   "TIME_INSTANT": "quickly",
   "VERSION_TITLE": "Current version:",
   "VERSION_LATEST_TITLE": "Latest version:",
+  "VERSION_LATEST_ERROR": "Failed to check latest package version",
   "VERSION_TEXT": "Update to latest version by running command:",
   "WATCH_TITLE": "Watch for file changes..."
 }

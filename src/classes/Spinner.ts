@@ -1,22 +1,22 @@
-import chalk from 'chalk';
 import ora, { type Ora } from 'ora';
 import cliSpinners, { type SpinnerName } from 'cli-spinners';
 
-import { type IFile } from './App.js';
-import { type Locale } from '../utils/locale.js';
+import { type IApp, type IFile } from './App.js';
 
-import Store from './Store.js';
+const statuses = ['start', 'success', 'error'] as const;
+const colors = ['cyan', 'green', 'red'] as const;
 
-export type SpinnerStatus = 'start' | 'success' | 'error';
+export type SpinnerStatus = typeof statuses[number];
+export type SpinnerColors = typeof colors[number];
 
 export interface ISpinnerStatus {
-  color: string;
+  color: SpinnerColors;
   text: string;
 }
 
 export interface ISpinner {
-  readonly locale: Locale;
   readonly file: IFile;
+  readonly app: IApp;
   readonly type: SpinnerName;
   readonly spinner: Ora;
   readonly status: Record<SpinnerStatus, ISpinnerStatus>;
@@ -30,28 +30,28 @@ export interface ISpinner {
   error(e: Error): void;
 }
 
-export default class Spinner extends Store implements ISpinner {
+export default class Spinner implements ISpinner {
   public status: Record<SpinnerStatus, ISpinnerStatus>;
 
   public spinner: Ora;
 
-  constructor(public locale: Locale, public file: IFile, public type: SpinnerName = 'bouncingBar') {
-    super();
+  constructor(public file: IFile, public app: IApp, public type: SpinnerName = 'bouncingBar') {
+    this.app = app;
 
     this.status = {
       start: {
         color: 'cyan',
-        text: locale[this.inStore(file.hash) ? 'SPINNER_START_FORCE_TEXT' : 'SPINNER_START_TEXT'],
+        text: app.locale[app.isProcessed(file.hash) ? 'SPINNER_START_FORCE_TEXT' : 'SPINNER_START_TEXT'],
       },
       success: {
         color: 'green',
-        text: locale.SPINNER_SUCCESS_TEXT,
+        text: app.locale.SPINNER_SUCCESS_TEXT,
       },
       error: {
         color: 'red',
-        text: locale[this.inStore(file.hash) ? 'SPINNER_ERROR_FORCE_TEXT' : 'SPINNER_ERROR_TEXT'],
+        text: app.locale[app.isProcessed(file.hash) ? 'SPINNER_ERROR_FORCE_TEXT' : 'SPINNER_ERROR_TEXT'],
       },
-    };
+    } as const;
 
     this.spinner = ora({
       spinner: cliSpinners[type],
@@ -61,27 +61,25 @@ export default class Spinner extends Store implements ISpinner {
   print(status: SpinnerStatus) {
     const { color, text } = this.status[status];
 
-    const nameText = (chalk as any)[color](`[${this.file.name}] `);
-    const messageText = status === 'error' ? chalk.red(text) : text;
+    const nameText = this.app.text(`[${this.file.name}] `, color);
+    const messageText = status === 'error' ? this.app.text(text, 'red') : text;
 
     let result = `${nameText}${messageText}`;
 
     if (status === 'success') {
-      const [originalSize, compressedSize] = this.getSizes(
+      const [originalSize, compressedSize] = this.app.getSizes(
         this.file.hash,
         true,
       );
-      const percent = this.getRatio(this.file.hash, true);
+      const percent = this.app.getRatio(this.file.hash, true);
 
-      const sizesText = chalk.magenta(
-        `[${originalSize} -> ${compressedSize}] `,
-      );
-      const percentText = chalk.green(`[-${percent}%] `);
+      const sizesText = this.app.text(`[${originalSize} -> ${compressedSize}] `, 'magenta');
+      const percentText = this.app.text(`[-${percent}%] `, 'green');
 
       result = `${nameText}${sizesText}${percentText}${messageText}`;
     }
 
-    return chalk.bold(result);
+    return this.app.text(result, 'bold');
   }
 
   start() {
@@ -95,8 +93,6 @@ export default class Spinner extends Store implements ISpinner {
   error(e: Error) {
     this.spinner.fail(this.print('error'));
 
-    if (e.message) {
-      console.log(chalk.italic.gray(e.message));
-    }
+    this.app.log.error('', e);
   }
 }

@@ -26,6 +26,7 @@ npm i -g digikid/tiny-compressor
 Перейдите в папку с изображениями и запустите команду:
 
 ```shell
+cd path/to/images
 tiny-compressor
 ```
 

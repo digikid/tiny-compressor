@@ -1,5 +1,3 @@
-import chalk from 'chalk';
-
 import { sortByKey } from '../utils/object.js';
 import { formatDate } from '../utils/date.js';
 import { formatBytes } from '../utils/number.js';
@@ -16,42 +14,26 @@ export default (function (this: IApp) {
 
   const percent = this.getRatio(hashes, true);
 
-  const filesText = `${this.message('STAT_TOTAL_FILES_TEXT')} ${chalk.cyan(files.length)}`;
-  const originalSizeText = `${this.message('STAT_TOTAL_ORIGINAL_SIZE_TEXT')} ${chalk.magenta(originalSize)}`;
-  const compressedSizeText = `${this.message('STAT_TOTAL_COMPRESSED_SIZE_TEXT')} ${chalk.green(
-    compressedSize,
-  )} ${chalk.green(`[-${percent}%]`)}`;
+  const filesText = `${this.text('STAT_TOTAL_FILES_TEXT', 'bold')} ${this.text(files.length, 'bold', 'cyan')}`;
+  const originalSizeText = `${this.text('STAT_TOTAL_ORIGINAL_SIZE_TEXT', 'bold')} ${this.text(originalSize, 'bold', 'magenta')}`;
+  const compressedSizeText = `${this.text('STAT_TOTAL_COMPRESSED_SIZE_TEXT', 'bold')} ${this.text(compressedSize, 'bold', 'green')} ${this.text(`[-${percent}%]`, 'bold', 'green')}`;
 
   sortByKey(files, 'date').forEach((file) => {
     const [originalSize, compressedSize] = file.size;
     const percent = (100 * (1 - compressedSize / originalSize)).toFixed(2);
 
-    console.log(
-      `${this.message('STAT_FILE_DATE_TEXT', 'bold')} ${chalk.bold.blue(
-        formatDate(file.date),
-      )}`,
-    );
-    console.log(
-      `${this.message('STAT_FILE_PATH_TEXT', 'bold')}\n${chalk.bold.cyan(file.path)}`,
-    );
-    console.log(
-      `${this.message('STAT_FILE_ORIGINAL_SIZE_TEXT', 'bold')} ${chalk.bold.magenta(
-        `${formatBytes(originalSize)}`,
-      )}`,
-    );
-    console.log(
-      `${this.message('STAT_FILE_COMPRESSED_SIZE_TEXT', 'bold')} ${chalk.bold.green(
-        `${formatBytes(compressedSize)} [-${percent}%]`,
-      )}`,
-    );
+    this.log.print(`${this.text('STAT_FILE_DATE_TEXT', 'bold')} ${this.text(formatDate(file.date), 'bold', 'blue')}`);
+    this.log.print(`${this.text('STAT_FILE_PATH_TEXT', 'bold')}\n${this.text(file.path, 'bold', 'cyan')}`);
+    this.log.print(`${this.text('STAT_FILE_ORIGINAL_SIZE_TEXT', 'bold')} ${this.text(`${formatBytes(originalSize)}`, 'bold', 'magenta')}`);
+    this.log.print(`${this.text('STAT_FILE_COMPRESSED_SIZE_TEXT', 'bold')} ${this.text(`${formatBytes(compressedSize)} [-${percent}%]`, 'bold', 'green')}`);
 
-    console.log('-'.repeat(process.stdout.columns));
+    this.log.separate();
   });
 
-  console.log(chalk.bold(`${filesText}`));
+  this.log.print(filesText);
 
   if (files.length) {
-    console.log(chalk.bold(`${originalSizeText}`));
-    console.log(chalk.bold(`${compressedSizeText}`));
+    this.log.print(originalSizeText);
+    this.log.print(compressedSizeText);
   }
 }) as StatMethod;

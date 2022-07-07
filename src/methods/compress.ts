@@ -19,13 +19,13 @@ export type CompressMethod = () => Promise<void>;
 
 export default (async function (this: IApp) {
   if (!this.files.length) {
-    console.log(this.message('COMPRESS_NO_IMAGES_ERROR', 'bold', 'red'));
+    this.log.error('COMPRESS_NO_IMAGES_ERROR');
 
     return;
   }
 
   if (this.args.force && !this.args.quiet) {
-    console.log(this.message('COMPRESS_WATCH_WARNING', 'bgYellowBright'));
+    this.log.warning('COMPRESS_FORCE_WARNING');
   }
 
   const timestamp = getTimestamp();
@@ -41,8 +41,8 @@ export default (async function (this: IApp) {
 
     let isSuccess = false;
 
-    if (this.args.force || !this.inStore(hash)) {
-      const spinner = new Spinner(this.locale, file);
+    if (this.args.force || !this.isProcessed(hash)) {
+      const spinner = new Spinner(file, this);
 
       if (!this.args.quiet) {
         spinner.start();
@@ -109,7 +109,7 @@ export default (async function (this: IApp) {
       result.skipped.push(hash);
     }
 
-    if (this.args.force && this.inStore(hash) && !isSuccess) {
+    if (this.args.force && this.isProcessed(hash) && !isSuccess) {
       this.removeFile(hash);
     }
   }

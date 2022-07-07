@@ -5,15 +5,15 @@ import { type IApp } from '../classes/App.js';
 export type ResetMethod = () => Promise<void>;
 
 export default (async function (this: IApp) {
-  console.log(this.message('RESET_TITLE', 'bold'));
-  console.log(this.message('RESET_TEXT_1'));
-  console.log(this.message('RESET_TEXT_2'));
+  this.log.print('RESET_TITLE', 'bold');
+  this.log.print('RESET_TEXT_1');
+  this.log.print('RESET_TEXT_2');
 
   const answers = await inquirer.prompt([
     {
       type: 'confirm',
       name: 'reset',
-      message: this.message('RESET_QUESTION'),
+      message: this.text('RESET_QUESTION'),
       default: false,
     },
   ]);
