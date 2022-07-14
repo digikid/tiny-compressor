@@ -1,5 +1,13 @@
 # Release Notes
 
+[1.2.1]: https://github.com/digikid/tiny-compressor/releases/tag/1.2.1
+
+## [1.2.1] - 2022-07-14
+
+### Bug Fixes
+
+- Removing extra characters from log messages
+
 [1.2.0]: https://github.com/digikid/tiny-compressor/releases/tag/1.2.0
 
 ## [1.2.0] - 2022-07-08
