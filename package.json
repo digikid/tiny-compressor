@@ -1,6 +1,6 @@
 {
   "name": "tiny-compressor",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A command line JPG, PNG and WebP images compressor using TinyPNG API",
   "type": "module",
   "main": "dist/index.js",
