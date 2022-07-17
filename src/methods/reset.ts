@@ -20,5 +20,7 @@ export default (async function (this: IApp) {
 
   if (answers.reset) {
     this.store.set('compressed', {});
+
+    this.log.success('RESET_SUCCESS');
   }
 }) as ResetMethod;
