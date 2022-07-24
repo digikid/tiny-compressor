@@ -2,6 +2,8 @@
   <img alt="Tiny Compressor" src="https://github.com/digikid/tiny-compressor/raw/main/logo.png" height="117" />
   <h1>Tiny Compressor</h1>
   <p>Компрессор JPG, PNG и WebP изображений, использующий TinyPNG API.<br><b>Не требует использования API ключа.</b></p>
+  <p>
+    <a href="https://github.com/digikid/tiny-compressor/blob/main/README.md">English</a> | <b>Русский</b></p>
   <img src="https://img.shields.io/github/release/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="Release version">
   <img src="https://img.shields.io/github/languages/top/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="TypeScript">
   <img src="https://img.shields.io/github/license/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="MIT License">

@@ -2,11 +2,11 @@
   <img alt="Tiny Compressor" src="https://github.com/digikid/tiny-compressor/raw/main/logo.png" height="117" />
   <h1>Tiny Compressor</h1>
   <p>A command line JPG, PNG and WebP images compressor using TinyPNG API.<br><b>API key is not required.</b></p>
+  <p>
+    <b>English</b> | <a href="https://github.com/digikid/tiny-compressor/blob/main/README.ru-RU.md">Русский</a></p>
   <img src="https://img.shields.io/github/release/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="Release version">
   <img src="https://img.shields.io/github/languages/top/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="TypeScript">
   <img src="https://img.shields.io/github/license/digikid/tiny-compressor.svg?style=flat-square&logo=appveyor" alt="MIT License">
-  <p>
-    <a href="https://github.com/digikid/tiny-compressor/blob/main/README.md">en</a> | <a href="https://github.com/digikid/tiny-compressor/blob/main/README-ru.md">ru</a></p>
 </div>
 
 ## Why
