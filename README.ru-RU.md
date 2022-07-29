@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="Tiny Compressor" src="https://github.com/digikid/tiny-compressor/raw/main/logo.png" height="117" />
+  <img alt="Tiny Compressor" src="https://github.com/digikid/tiny-compressor/raw/main/logo.svg" height="117" />
   <h1>Tiny Compressor</h1>
   <p>Компрессор JPG, PNG и WebP изображений, использующий TinyPNG API.<br><b>Не требует использования API ключа.</b></p>
   <p>
