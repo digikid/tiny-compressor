@@ -26,7 +26,7 @@
     "tinypng"
   ],
   "scripts": {
-    "tsc": "./node_modules/typescript/bin/tsc",
+    "tsc": "node_modules/typescript/bin/tsc",
     "build": "tsc",
     "dev": "tsc --watch",
     "local-install": "npm i -g ./",
