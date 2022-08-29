@@ -21,7 +21,7 @@ export type ApiOutput = IApiOutputSuccess | IApiOutputError;
 
 export interface IApiResultInput {
   size: number;
-  type: MimeType;
+  type: string;
 }
 
 export interface IApiResultOutput {
