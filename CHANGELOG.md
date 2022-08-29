@@ -1,5 +1,17 @@
 # Release Notes
 
+[1.2.2]: https://github.com/digikid/tiny-compressor/releases/tag/1.2.2
+
+## [1.2.2] - 2022-08-30
+
+### Updates
+
+- Update installation command
+
+### Bug Fixes
+
+- Fixed installation error in npm 7+ with adding specific [--install-links](https://github.com/npm/cli/issues/2339#issuecomment-1111228605) flag
+
 [1.2.1]: https://github.com/digikid/tiny-compressor/releases/tag/1.2.1
 
 ## [1.2.1] - 2022-07-17

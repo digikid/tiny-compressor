@@ -18,7 +18,7 @@
 ## Установка
 
 ```shell
-npm i -g digikid/tiny-compressor
+npm i digikid/tiny-compressor --global --install-links
 ```
 
 ## Запуск

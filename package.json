@@ -1,6 +1,6 @@
 {
   "name": "tiny-compressor",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A command line JPG, PNG and WebP images compressor using TinyPNG API",
   "type": "module",
   "main": "dist/index.js",
@@ -25,11 +25,12 @@
     "webp",
     "tinypng"
   ],
-  "prepublish": "tsc",
   "scripts": {
-    "prepare": "tsc",
+    "tsc": "./node_modules/typescript/bin/tsc",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "local-install": "npm i -g ./",
-    "local-update": "tsc"
+    "postinstall": "npm run build"
   },
   "author": "Alexander Dovlatov <dev@digkid.ru> (https://dev.digikid.ru/)",
   "license": "MIT",
